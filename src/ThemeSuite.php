@@ -5,8 +5,16 @@ namespace tiFy\Plugins\ThemeSuite;
 use Exception;
 use Psr\Container\ContainerInterface as Container;
 use tiFy\Contracts\Filesystem\LocalFilesystem;
+use tiFy\Plugins\ThemeSuite\Partial\ArticleBodyPartial;
+use tiFy\Plugins\ThemeSuite\Partial\ArticleCardPartial;
+use tiFy\Plugins\ThemeSuite\Partial\ArticleChildrenPartial;
+use tiFy\Plugins\ThemeSuite\Partial\ArticleFooterPartial;
+use tiFy\Plugins\ThemeSuite\Partial\ArticleHeaderPartial;
+use tiFy\Plugins\ThemeSuite\Partial\ArticleTitlePartial;
+use tiFy\Plugins\ThemeSuite\Partial\NavMenuPartial;
 use tiFy\Plugins\ThemeSuite\Contracts\ThemeSuite as ThemeSuiteContract;
 use tiFy\Support\ParamsBag;
+use tiFy\Support\Proxy\Partial;
 use tiFy\Support\Proxy\Storage;
 
 class ThemeSuite implements ThemeSuiteContract
@@ -86,6 +94,15 @@ class ThemeSuite implements ThemeSuiteContract
     public function boot(): ThemeSuiteContract
     {
         if (!$this->booted) {
+            // Partial
+            Partial::register('article-body', (new ArticleBodyPartial())->setThemeSuite($this));
+            Partial::register('article-card', (new ArticleCardPartial())->setThemeSuite($this));
+            Partial::register('article-children', (new ArticleChildrenPartial())->setThemeSuite($this));
+            Partial::register('article-header', (new ArticleHeaderPartial())->setThemeSuite($this));
+            Partial::register('article-footer', (new ArticleFooterPartial())->setThemeSuite($this));
+            Partial::register('article-title', (new ArticleTitlePartial())->setThemeSuite($this));
+            Partial::register('nav-menu', (new NavMenuPartial())->setThemeSuite($this));
+
             $this->booted = true;
         }
 
@@ -131,7 +148,7 @@ class ThemeSuite implements ThemeSuiteContract
      */
     public function resolve(string $alias)
     {
-        return ($container = $this->getContainer()) ? $container->get("pwa.{$alias}") : null;
+        return ($container = $this->getContainer()) ? $container->get("theme-suite.{$alias}") : null;
     }
 
     /**
@@ -139,7 +156,7 @@ class ThemeSuite implements ThemeSuiteContract
      */
     public function resolvable(string $alias): bool
     {
-        return ($container = $this->getContainer()) && $container->has("pwa.{$alias}");
+        return ($container = $this->getContainer()) && $container->has("theme-suite.{$alias}");
     }
 
     /**
