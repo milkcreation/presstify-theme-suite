@@ -40,12 +40,4 @@ class ArticleFooterPartial extends AbstractPartialDriver
 
         return '';
     }
-
-    /**
-     * @inheritDoc
-     */
-    protected function viewerDirectory(): string
-    {
-        return $this->ts()->resources('views/partial/article-footer');
-    }
 }

@@ -52,12 +52,4 @@ class NavMenuPartial extends AbstractPartialDriver
 
         return $this;
     }
-
-    /**
-     * @inheritDoc
-     */
-    protected function viewerDirectory(): string
-    {
-        return $this->ts()->resources('views/partial/nav-menu');
-    }
 }
