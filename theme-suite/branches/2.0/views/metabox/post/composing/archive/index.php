@@ -8,9 +8,9 @@
 <table class="form-table">
     <tr>
         <th>
-            <label style="display:block;"><?php _e('Bannière personnalisée', 'theme'); ?></label>
+            <label style="display:block;"><?php _e('Bannière personnalisée', 'tify'); ?></label>
             <i style="font-weight:normal;font-size:0.9em;color:#999;line-height:1;">
-                <?php _e('Utilise l\'image représentative par défaut de l\'onglet [Général]', 'theme'); ?>
+                <?php _e('Utilise l\'image représentative par défaut de l\'onglet [Général]', 'tify'); ?>
             </i>
         </th>
         <td>
@@ -22,6 +22,7 @@
                 'format'  => $post->getArchiveComposing('enabled.adjust') ? 'contain' : 'cover',
                 'width'   => 640,
                 'height'  => 360,
+                'size'    => 'composing-banner',
                 'name'    => $this->name() .'[banner_img]',
                 'value'   => $post->getArchiveComposing('banner_img'),
             ]); ?>
@@ -29,7 +30,7 @@
     </tr>
     <tr>
         <th>
-            <?php _e('Ajuster l\'image', 'theme'); ?>
+            <?php _e('Ajuster l\'image', 'tify'); ?>
 
         </th>
         <td>
@@ -45,7 +46,7 @@
     </tr>
     <tr>
         <th>
-            <?php _e('Extrait', 'theme'); ?>
+            <?php _e('Extrait', 'tify'); ?>
         </th>
         <td>
             <?php echo field('text-remaining', [

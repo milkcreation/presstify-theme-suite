@@ -11,14 +11,6 @@ class ArticleBodyPartial extends AbstractPartialDriver
     /**
      * @inheritDoc
      */
-    protected function viewerDirectory(): string
-    {
-        return $this->ts()->resources('views/partial/article-body');
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function defaults(): array
     {
         return array_merge(parent::defaults(), [
@@ -54,5 +46,13 @@ class ArticleBodyPartial extends AbstractPartialDriver
         }
 
         return '';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function viewerDirectory(): string
+    {
+        return $this->ts()->resources('views/partial/article-body');
     }
 }

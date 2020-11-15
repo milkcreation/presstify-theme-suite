@@ -5,11 +5,11 @@
  * @var tiFy\Plugins\ThemeSuite\Query\QueryPost $post
  */
 ?>
-<h3><?php _e('Titre alternatif', 'theme'); ?></h3>
+<h3><?php _e('Titre alternatif', 'tify'); ?></h3>
 
 <table class="form-table">
     <tr>
-        <th><?php _e('Titre haut (fin)', 'theme'); ?></th>
+        <th><?php _e('Titre haut (fin)', 'tify'); ?></th>
         <td>
             <?php echo field('text', [
                 'attrs' => [
@@ -21,7 +21,7 @@
         </td>
     </tr>
     <tr>
-        <th><?php _e('Titre bas (gras)', 'theme'); ?></th>
+        <th><?php _e('Titre bas (gras)', 'tify'); ?></th>
         <td>
             <?php echo field('text', [
                 'attrs' => [
@@ -33,7 +33,7 @@
         </td>
     </tr>
     <tr>
-        <th><?php _e('Image représentative par défaut', 'theme'); ?></th>
+        <th><?php _e('Image représentative par défaut', 'tify'); ?></th>
         <td>
             <?php echo field('media-image', [
                 'width' => 1920,

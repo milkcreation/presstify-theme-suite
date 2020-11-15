@@ -75,6 +75,7 @@ class QueryPost extends BaseQueryPost implements QueryPostContract
             $enabled = array_merge([
                 'adjust'   => false,
                 'banner'   => true,
+                'baseline' => true,
                 'date'     => false,
                 'excerpt'  => true,
                 'readmore' => true,
@@ -90,6 +91,60 @@ class QueryPost extends BaseQueryPost implements QueryPostContract
         }
 
         return is_null($key) ? $this->archiveComposing : $this->archiveComposing->get($key, $default);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAltBottomTitle(): string
+    {
+        return $this->getGlobalComposing('alt_bottom_title', '') ?: $this->getTitle();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAltTopTitle(): string
+    {
+        return $this->getGlobalComposing('alt_top_title', '');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getBannerImg(array $attrs = []): string
+    {
+        if (!$id = $this->getArchiveComposing('banner_img', 0)) {
+            return $this->getThumbnail('composing-banner', $attrs);
+        } elseif ($img = wp_get_attachment_image($id, 'composing-banner', false, $attrs)) {
+            return $img;
+        }
+
+        return '';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getBaseline(): string
+    {
+        return $this->getSingularComposing('baseline', '');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getChildrenBottomTitle(): string
+    {
+        return $this->getSingularComposing('children_bottom_title', '') ?: $this->getTitle();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getChildrenTopTitle(): string
+    {
+        return $this->getSingularComposing('children_top_title', '') ?: __('En relation avec', 'tify');
     }
 
     /**
@@ -115,6 +170,36 @@ class QueryPost extends BaseQueryPost implements QueryPostContract
     /**
      * @inheritDoc
      */
+    public function getHeaderImg(array $attrs = []): string
+    {
+        if (!$id = $this->getSingularComposing('header_img', 0)) {
+            return $this->getThumbnail('composing-header', $attrs);
+        } elseif ($img = wp_get_attachment_image($id, 'composing-header', false, $attrs)) {
+            return $img;
+        }
+
+        return '';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRelatedBottomTitle(): string
+    {
+        return $this->getSingularComposing('related_bottom_title', '') ?: '';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRelatedTopTitle(): string
+    {
+        return $this->getSingularComposing('related_top_title', '') ?: '';
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getSingularComposing(?string $key = null, $default = null)
     {
         if (is_null($this->singularComposing)) {
@@ -124,6 +209,7 @@ class QueryPost extends BaseQueryPost implements QueryPostContract
 
             $enabled = array_merge([
                 'children' => true,
+                'baseline' => true,
                 'content'  => true,
                 'date'     => false,
                 'subtitle' => true,
@@ -142,98 +228,10 @@ class QueryPost extends BaseQueryPost implements QueryPostContract
     }
 
     /**
-     * Récupération du titre alternatif bas.
-     *
-     * @return string
+     * @inheritDoc
      */
-    public function getAltBottomTitle(): string
+    public function getSubtitle(): string
     {
-        return $this->getGlobalComposing('alt_bottom_title', '') ?: $this->getTitle();
-    }
-
-    /**
-     * Récupération du titre alternatif haut.
-     *
-     * @return string
-     */
-    public function getAltTopTitle(): string
-    {
-        return $this->getGlobalComposing('alt_top_title', '');
-    }
-
-    /**
-     * Récupération de la bannière des page de flux.
-     *
-     * @param array $attrs
-     *
-     * @return string
-     */
-    public function getBannerImg(array $attrs = []): string
-    {
-        if (!$id = $this->getArchiveComposing('banner_img', 0)) {
-            return $this->getThumbnail('banner', $attrs);
-        } elseif ($img = wp_get_attachment_image($id, 'banner', false, $attrs)) {
-            return $img;
-        }
-
-        return '';
-    }
-
-    /**
-     * Récupération du titre bas des publications apparentées.
-     *
-     * @return string
-     */
-    public function getChildrenBottomTitle(): string
-    {
-        return $this->getSingularComposing('children_bottom_title', '') ?: $this->getTitle();
-    }
-
-    /**
-     * Récupération du titre haut des publications apparentées.
-     *
-     * @return string
-     */
-    public function getChildrenTopTitle(): string
-    {
-        return $this->getSingularComposing('children_top_title', '') ?: __('En relation avec', 'theme');
-    }
-
-    /**
-     * Récupération de l'image d'entête.
-     *
-     * @param array $attrs
-     *
-     * @return string
-     */
-    public function getHeaderImg(array $attrs = []): string
-    {
-        if (!$id = $this->getSingularComposing('header_img', 0)) {
-            return $this->getThumbnail('header', $attrs);
-        } elseif ($img = wp_get_attachment_image($id, 'header', false, $attrs)) {
-            return $img;
-        }
-
-        return '';
-    }
-
-    /**
-     * Récupération du title bas des éléments de flux associés.
-     *
-     * @return string
-     */
-    public function getRelatedBottomTitle(): string
-    {
-        return $this->getSingularComposing('related_bottom_title', '') ?: '';
-    }
-
-    /**
-     * Récupération du title haut des élément de flux associés.
-     *
-     * @return string
-     */
-    public function getRelatedTopTitle(): string
-    {
-        return $this->getSingularComposing('related_top_title', '') ?: '';
+        return $this->getSingularComposing('subtitle', '');
     }
 }

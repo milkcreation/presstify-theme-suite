@@ -5,10 +5,13 @@
  */
 ?>
 <<?php echo $this->get('tag', 'h1'); ?> <?php echo $this->htmlAttrs(); ?>>
-    <?php if ($title = $this->get('title')) : ?>
-        <span class="ArticleTitle--primary"><?php echo $title; ?></span>
+    <?php if ($before = $this->get('before')) : ?>
+        <span class="ArticleTitle--before"><?php echo $before; ?></span>
     <?php endif; ?>
-    <?php if ($subtitle = $this->get('subtitle')) : ?>
-        <span class="ArticleTitle--secondary"><?php echo $subtitle; ?></span>
+    <?php if ($content = $this->get('content')) : ?>
+        <span class="ArticleTitle--content"><?php echo $content; ?></span>
+    <?php endif; ?>
+    <?php if ($after = $this->get('after')) : ?>
+        <span class="ArticleTitle--after"><?php echo $after; ?></span>
     <?php endif; ?>
 </<?php echo $this->get('tag', 'h1'); ?>>
