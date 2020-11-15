@@ -4,6 +4,7 @@ namespace tiFy\Plugins\ThemeSuite;
 
 use tiFy\Container\ServiceProvider;
 use tiFy\Contracts\Metabox\MetaboxDriver;
+use tiFy\Plugins\ThemeSuite\Metabox\ImageGalleryMetabox;
 use tiFy\Plugins\ThemeSuite\Metabox\Post\Composing\ArchiveMetabox;
 use tiFy\Plugins\ThemeSuite\Metabox\Post\Composing\GlobalMetabox;
 use tiFy\Plugins\ThemeSuite\Metabox\Post\Composing\SingularMetabox;
@@ -21,7 +22,8 @@ class ThemeSuiteServiceProvider extends ServiceProvider
         'theme-suite',
         'metabox.driver.archive-composing',
         'metabox.driver.global-composing',
-        'metabox.driver.singular-composing'
+        'metabox.driver.singular-composing',
+        'metabox.driver.image-gallery'
     ];
 
     /**
@@ -55,6 +57,10 @@ class ThemeSuiteServiceProvider extends ServiceProvider
      */
     public function registerMetaboxDrivers(): void
     {
+        $this->getContainer()->add('metabox.driver.image-gallery', function () {
+            return (new ImageGalleryMetabox())->setThemeSuite($this->getContainer()->get('theme-suite'));
+        });
+
         $this->getContainer()->add('metabox.driver.archive-composing', function () {
             return (new ArchiveMetabox())->setThemeSuite($this->getContainer()->get('theme-suite'))
                 ->setHandler(function (MetaboxDriver $box, WP_Post $wp_post) {

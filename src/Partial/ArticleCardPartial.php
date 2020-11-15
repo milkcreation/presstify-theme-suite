@@ -11,22 +11,14 @@ class ArticleCardPartial extends AbstractPartialDriver
     /**
      * @inheritDoc
      */
-    protected function viewerDirectory(): string
-    {
-        return $this->ts()->resources('views/partial/article-card');
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function defaults(): array
     {
         return array_merge(parent::defaults(), [
             'excerpt'  => 'teaser',
             'post'     => null,
             'readmore' => [
-                'txt'   => __('Lire la suite', 'theme'),
-                'title' => __('Consulter %s', 'theme'),
+                'txt'   => __('Lire la suite', 'tify'),
+                'title' => __('Consulter %s', 'tify'),
             ],
             'enabled'  => [
                 'excerpt'  => true,
@@ -56,5 +48,13 @@ class ArticleCardPartial extends AbstractPartialDriver
         }
 
         return '';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function viewerDirectory(): string
+    {
+        return $this->ts()->resources('views/partial/article-card');
     }
 }

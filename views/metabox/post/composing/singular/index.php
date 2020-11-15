@@ -7,7 +7,7 @@
 ?>
     <table class="form-table">
         <tr>
-            <th><?php _e('Activation de la bannière d\'entête', 'theme'); ?></th>
+            <th><?php _e('Activation de la bannière d\'entête', 'tify'); ?></th>
             <td>
                 <?php echo field('toggle-switch', [
                     'attrs' => [
@@ -21,15 +21,15 @@
         </tr>
         <tr id="SingleHeader-customizer">
             <th>
-                <label style="display:block;"><?php _e('Image d\'entête personnalisé', 'theme'); ?></label>
+                <label style="display:block;"><?php _e('Image d\'entête personnalisé', 'tify'); ?></label>
                 <i style="font-weight:normal;font-size:0.9em;color:#999;line-height:1;">
-                    <?php _e('Utilise l\'image représentative par défaut de l\'onglet [Général]', 'theme'); ?>
+                    <?php _e('Utilise l\'image représentative par défaut de l\'onglet [Général]', 'tify'); ?>
                 </i>
             </th>
             <td>
                 <?php echo field('media-image', [
                     'default' => $post->getMetaSingle('_thumbnail_id'),
-                    'size'    => 'banner',
+                    'size'    => 'composing-header',
                     'width'   => 1920,
                     'height'  => 1080,
                     'name'    => $this->name() . '[header_img]',
@@ -40,10 +40,10 @@
     </table>
 
 <?php if ($post->getType()->hierarchical) : ?>
-    <h3><?php _e('Liste des publications apparentés', 'theme'); ?></h3>
+    <h3><?php _e('Liste des publications apparentés', 'tify'); ?></h3>
     <table class="form-table">
         <tr>
-            <th><?php _e('Activation de l\'affichage', 'theme'); ?></th>
+            <th><?php _e('Activation de l\'affichage', 'tify'); ?></th>
             <td>
                 <?php echo field('toggle-switch', [
                     'name'  => $this->name() . '[enabled][children]',
@@ -52,12 +52,12 @@
             </td>
         </tr>
         <tr>
-            <th><?php _e('Titre haut (requis) *', 'theme'); ?></th>
+            <th><?php _e('Titre haut (requis) *', 'tify'); ?></th>
             <td>
                 <?php echo field('text', [
                     'attrs' => [
                         'class'       => 'widefat',
-                        'placeholder' => __('Texte par défaut : En relation avec', 'theme'),
+                        'placeholder' => __('Texte par défaut : En relation avec', 'tify'),
                     ],
                     'name'  => $this->name() . '[children_top_title]',
                     'value' => $post->getSingularComposing('children_top_title'),
@@ -65,12 +65,12 @@
             </td>
         </tr>
         <tr>
-            <th><?php _e('Titre bas (requis) *', 'theme'); ?></th>
+            <th><?php _e('Titre bas (requis) *', 'tify'); ?></th>
             <td>
                 <?php echo field('text', [
                     'attrs' => [
                         'class'       => 'widefat',
-                        'placeholder' => __('Texte par défaut : {{ Titre de la page }}', 'theme'),
+                        'placeholder' => __('Texte par défaut : {{ Titre de la page }}', 'tify'),
                     ],
                     'name'  => $this->name() . '[children_bottom_title]',
                     'value' => $post->getSingularComposing('children_bottom_title'),

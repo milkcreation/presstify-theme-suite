@@ -11,14 +11,6 @@ class ArticleChildrenPartial extends AbstractPartialDriver
     /**
      * @inheritDoc
      */
-    protected function viewerDirectory(): string
-    {
-        return $this->ts()->resources('views/partial/article-children');
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function defaults(): array
     {
         return array_merge(parent::defaults(), [
@@ -29,7 +21,7 @@ class ArticleChildrenPartial extends AbstractPartialDriver
             'per_page'   => -1,
             'paged'      => 1,
             'query_args' => [],
-            'title'      => __('Autre contenu en relation', 'theme'),
+            'title'      => __('Autre contenu en relation', 'tify'),
         ]);
     }
 
@@ -67,5 +59,13 @@ class ArticleChildrenPartial extends AbstractPartialDriver
         }
 
         return '';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function viewerDirectory(): string
+    {
+        return $this->ts()->resources('views/partial/article-children');
     }
 }

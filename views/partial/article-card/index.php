@@ -32,7 +32,7 @@
     <?php if ($this->get('enabled.readmore')) : ?>
         <a href="<?php echo $article->getPermalink(); ?>"
            class="ArticleCard-readmore Button--1"
-           title="<?php printf($this->get('readmore.title', __('Consulter %s', 'theme')), $article->getTitle()); ?>"
-        ><?php echo $this->get('readmore.txt', __('Lire la suite', 'theme')) ?></a>
+           title="<?php printf($this->get('readmore.title', __('Consulter %s', 'tify')), $article->getTitle()); ?>"
+        ><?php echo $this->get('readmore.txt', __('Lire la suite', 'tify')) ?></a>
     <?php endif; ?>
 </article>
