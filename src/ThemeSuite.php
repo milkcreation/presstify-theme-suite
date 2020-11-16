@@ -35,9 +35,7 @@ class ThemeSuite implements ThemeSuiteContract
      * Liste des services par défaut fournis par conteneur d'injection de dépendances.
      * @var array
      */
-    private $defaultProviders = [
-
-    ];
+    private $defaultProviders = [];
 
     /**
      * Instance du gestionnaire des ressources
