@@ -1,6 +1,6 @@
 {
   "name": "presstify-plugins/theme-suite",
-  "description": "Theme Suite Presstify plugin - Partial, Field, Metabox collection.",
+  "description": "Theme Suite Presstify plugin - Components collection.",
   "homepage": "https://svn.tigreblanc.fr/presstify-plugins/theme-suite/",
   "keywords": [
     "presstify",
@@ -11,7 +11,7 @@
     "metabox drivers"
   ],
   "type": "presstify-plugin",
-  "time": "2020-11-15",
+  "time": "2020-11-16",
   "license": "MIT",
   "authors": [
     {
