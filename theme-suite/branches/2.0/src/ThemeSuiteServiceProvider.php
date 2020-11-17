@@ -23,7 +23,7 @@ class ThemeSuiteServiceProvider extends ServiceProvider
         'metabox.driver.archive-composing',
         'metabox.driver.global-composing',
         'metabox.driver.singular-composing',
-        'metabox.driver.image-gallery'
+        'metabox.driver.image-gallery',
     ];
 
     /**
@@ -31,10 +31,12 @@ class ThemeSuiteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->getContainer()->share('theme-suite', function () {
+            return new ThemeSuite(config('theme-suite', []), $this->getContainer());
+        });
+
         if (($wp = $this->getContainer()->get('wp')) && $wp->is()) {
-            add_action('after_setup_theme', function () {
-                $this->getContainer()->get('theme-suite')->boot();
-            });
+            $this->getContainer()->get('theme-suite')->boot();
         }
     }
 
@@ -43,10 +45,6 @@ class ThemeSuiteServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->getContainer()->share('theme-suite', function () {
-            return new ThemeSuite(config('theme-suite', []), $this->getContainer());
-        });
-
         $this->registerMetaboxDrivers();
     }
 
