@@ -3,7 +3,7 @@
 namespace tiFy\Plugins\ThemeSuite;
 
 use Exception;
-use tiFy\Plugins\ThemeSuite\Contracts\ThemeSuite;
+use tiFy\Plugins\ThemeSuite\Contracts\ThemeSuite as ThemeSuiteContact;
 
 trait ThemeSuiteAwareTrait
 {
@@ -34,11 +34,11 @@ trait ThemeSuiteAwareTrait
     /**
      * Définition de l'application.
      *
-     * @param ThemeSuite $ts
+     * @param ThemeSuiteContact $ts
      *
      * @return static
      */
-    public function setThemeSuite(ThemeSuite $ts): self
+    public function setThemeSuite(ThemeSuiteContact $ts): self
     {
         $this->ts = $ts;
 
