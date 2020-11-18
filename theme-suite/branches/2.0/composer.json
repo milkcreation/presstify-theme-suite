@@ -1,6 +1,6 @@
 {
   "name": "presstify-plugins/theme-suite",
-  "description": "Theme Suite Presstify plugin - Components collection.",
+  "description": "Theme Suite PresstiFy plugin - Components collection.",
   "homepage": "https://svn.tigreblanc.fr/presstify-plugins/theme-suite/",
   "keywords": [
     "presstify",
@@ -11,7 +11,7 @@
     "metabox drivers"
   ],
   "type": "presstify-plugin",
-  "time": "2020-11-17",
+  "time": "2020-11-18",
   "license": "MIT",
   "authors": [
     {
@@ -28,8 +28,7 @@
   ],
   "require": {
     "composer/installers": "~1.0",
-    "presstify/framework": ">=1.4",
-    "presstify-plugins/contact-infos": "^2.0"
+    "presstify/framework": ">=1.4"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.0"

@@ -1,5 +1,9 @@
 # Release Notes
 
+## [v2.0.4 (2020-11-18)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.4...v2.0.4)
+
+- Ajout de l'attribut titre aux liens
+
 ## [v2.0.3 (2020-11-17)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.3...v2.0.3)
 
 ### Changed
