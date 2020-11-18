@@ -28,11 +28,13 @@ class NavMenuPartial extends AbstractPartialDriver
                 if (!$content = $item['content'] ?? null) {
                     $href = $item['url'] ?? '#';
                     $content = $item['label'] ?? '';
+                    $title = $item['title'] ?? basename($href);
 
                     $_item['content'] = Partial::get('tag', [
                         'attrs' => [
                             'class' => 'NavMenu-itemLink',
-                            'href'  => $href
+                            'href'  => $href,
+                            'title' => $title
                         ],
                         'content' => $content,
                         'tag' => 'a'
