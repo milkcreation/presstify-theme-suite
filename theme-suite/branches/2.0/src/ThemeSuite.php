@@ -5,6 +5,10 @@ namespace tiFy\Plugins\ThemeSuite;
 use Exception;
 use Psr\Container\ContainerInterface as Container;
 use tiFy\Contracts\Filesystem\LocalFilesystem;
+use tiFy\Plugins\ThemeSuite\Contracts\ArchiveComposingMetabox;
+use tiFy\Plugins\ThemeSuite\Contracts\GlobalComposingMetabox;
+use tiFy\Plugins\ThemeSuite\Contracts\ImageGalleryMetabox;
+use tiFy\Plugins\ThemeSuite\Contracts\SingularComposingMetabox;
 use tiFy\Plugins\ThemeSuite\Partial\ArticleBodyPartial;
 use tiFy\Plugins\ThemeSuite\Partial\ArticleCardPartial;
 use tiFy\Plugins\ThemeSuite\Partial\ArticleChildrenPartial;
@@ -14,6 +18,7 @@ use tiFy\Plugins\ThemeSuite\Partial\ArticleTitlePartial;
 use tiFy\Plugins\ThemeSuite\Partial\NavMenuPartial;
 use tiFy\Plugins\ThemeSuite\Contracts\ThemeSuite as ThemeSuiteContract;
 use tiFy\Support\ParamsBag;
+use tiFy\Support\Proxy\Metabox;
 use tiFy\Support\Proxy\Partial;
 use tiFy\Support\Proxy\Storage;
 
@@ -36,6 +41,17 @@ class ThemeSuite implements ThemeSuiteContract
      * @var array
      */
     private $defaultProviders = [];
+
+    /**
+     * Liste des pilotes de métabox.
+     * @var array
+     */
+    private $metaboxDrivers = [
+        'image-gallery'      => ImageGalleryMetabox::class,
+        'archive-composing'  => ArchiveComposingMetabox::class,
+        'global-composing'   => GlobalComposingMetabox::class,
+        'singular-composing' => SingularComposingMetabox::class,
+    ];
 
     /**
      * Instance du gestionnaire des ressources
@@ -99,6 +115,14 @@ class ThemeSuite implements ThemeSuiteContract
             Partial::register('article-footer', (new ArticleFooterPartial())->setThemeSuite($this));
             Partial::register('article-title', (new ArticleTitlePartial())->setThemeSuite($this));
             Partial::register('nav-menu', (new NavMenuPartial())->setThemeSuite($this));
+
+            add_action('after_setup_theme', function () {
+                foreach ($this->metaboxDrivers as $alias => $abstract) {
+                    if ($this->getContainer()->has($abstract)) {
+                        Metabox::registerDriver($alias, $this->getContainer()->get($abstract));
+                    }
+                }
+            });
 
             add_action('init', function () {
                 add_image_size('composing-header', 1920, 999999, false);
@@ -172,7 +196,7 @@ class ThemeSuite implements ThemeSuiteContract
      */
     public function resources(?string $path = null)
     {
-        if (!isset($this->resources) ||is_null($this->resources)) {
+        if (!isset($this->resources) || is_null($this->resources)) {
             $this->resources = Storage::local(dirname(__DIR__));
         }
 

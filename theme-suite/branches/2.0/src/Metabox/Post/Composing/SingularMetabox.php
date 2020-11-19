@@ -2,9 +2,10 @@
 
 namespace tiFy\Plugins\ThemeSuite\Metabox\Post\Composing;
 
+use tiFy\Plugins\ThemeSuite\Contracts\SingularComposingMetabox as SingularComposingMetaboxContract;
 use tiFy\Plugins\ThemeSuite\Metabox\AbstractMetaboxDriver;
 
-class SingularMetabox extends AbstractMetaboxDriver
+class SingularMetabox extends AbstractMetaboxDriver implements SingularComposingMetaboxContract
 {
     /**
      * @inheritDoc
@@ -20,7 +21,7 @@ class SingularMetabox extends AbstractMetaboxDriver
     /**
      * @inheritDoc
      */
-    protected function viewerDirectory(): string
+    public function viewDirectory(): string
     {
         return $this->ts()->resources('views/metabox/post/composing/singular');
     }

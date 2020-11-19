@@ -2,9 +2,10 @@
 
 namespace tiFy\Plugins\ThemeSuite\Metabox;
 
+use tiFy\Plugins\ThemeSuite\Contracts\ImageGalleryMetabox as ImageGalleryMetaboxContract;
 use tiFy\Support\Proxy\Partial;
 
-class ImageGalleryMetabox extends AbstractMetaboxDriver
+class ImageGalleryMetabox extends AbstractMetaboxDriver implements ImageGalleryMetaboxContract
 {
     /**
      * @inheritDoc
@@ -75,7 +76,7 @@ class ImageGalleryMetabox extends AbstractMetaboxDriver
     /**
      * @inheritDoc
      */
-    protected function viewerDirectory(): string
+    public function viewDirectory(): string
     {
         return $this->ts()->resources('views/metabox/image-gallery');
     }

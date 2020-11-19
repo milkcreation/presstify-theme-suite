@@ -2,15 +2,17 @@
 
 namespace tiFy\Plugins\ThemeSuite\Metabox\Post\Composing;
 
+use tiFy\Contracts\Metabox\MetaboxDriver as MetaboxDriverContract;
+use tiFy\Plugins\ThemeSuite\Contracts\GlobalComposingMetabox as GlobalComposingMetaboxContract;
 use tiFy\Plugins\ThemeSuite\Metabox\AbstractMetaboxDriver;
 use WP_Post;
 
-class GlobalMetabox extends AbstractMetaboxDriver
+class GlobalMetabox extends AbstractMetaboxDriver implements GlobalComposingMetaboxContract
 {
     /**
      * @inheritDoc
      */
-    public function boot(): void
+    public function boot(): MetaboxDriverContract
     {
         parent::boot();
 
@@ -22,6 +24,8 @@ class GlobalMetabox extends AbstractMetaboxDriver
                 remove_meta_box('postimagediv', $post->post_type, 'side');
             }
         });
+
+        return $this;
     }
 
     /**
@@ -38,7 +42,7 @@ class GlobalMetabox extends AbstractMetaboxDriver
     /**
      * @inheritDoc
      */
-    protected function viewerDirectory(): string
+    public function viewDirectory(): string
     {
         return $this->ts()->resources('views/metabox/post/composing/global');
     }
