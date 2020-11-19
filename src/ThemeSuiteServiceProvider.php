@@ -4,6 +4,10 @@ namespace tiFy\Plugins\ThemeSuite;
 
 use tiFy\Container\ServiceProvider;
 use tiFy\Contracts\Metabox\MetaboxDriver;
+use tiFy\Plugins\ThemeSuite\Contracts\ArchiveComposingMetabox as ArchiveComposingMetaboxContract;
+use tiFy\Plugins\ThemeSuite\Contracts\GlobalComposingMetabox as GlobalComposingMetaboxContract;
+use tiFy\Plugins\ThemeSuite\Contracts\ImageGalleryMetabox as ImageGalleryMetaboxContract;
+use tiFy\Plugins\ThemeSuite\Contracts\SingularComposingMetabox as SingularComposingMetaboxContract;
 use tiFy\Plugins\ThemeSuite\Metabox\ImageGalleryMetabox;
 use tiFy\Plugins\ThemeSuite\Metabox\Post\Composing\ArchiveMetabox;
 use tiFy\Plugins\ThemeSuite\Metabox\Post\Composing\GlobalMetabox;
@@ -20,10 +24,10 @@ class ThemeSuiteServiceProvider extends ServiceProvider
      */
     protected $provides = [
         'theme-suite',
-        'metabox.driver.archive-composing',
-        'metabox.driver.global-composing',
-        'metabox.driver.singular-composing',
-        'metabox.driver.image-gallery',
+        ArchiveComposingMetaboxContract::class,
+        GlobalComposingMetaboxContract::class,
+        ImageGalleryMetaboxContract::class,
+        SingularComposingMetaboxContract::class,
     ];
 
     /**
@@ -55,25 +59,25 @@ class ThemeSuiteServiceProvider extends ServiceProvider
      */
     public function registerMetaboxDrivers(): void
     {
-        $this->getContainer()->add('metabox.driver.image-gallery', function () {
+        $this->getContainer()->add(ImageGalleryMetaboxContract::class, function () {
             return (new ImageGalleryMetabox())->setThemeSuite($this->getContainer()->get('theme-suite'));
         });
 
-        $this->getContainer()->add('metabox.driver.archive-composing', function () {
+        $this->getContainer()->add(ArchiveComposingMetaboxContract::class, function () {
             return (new ArchiveMetabox())->setThemeSuite($this->getContainer()->get('theme-suite'))
                 ->setHandler(function (MetaboxDriver $box, WP_Post $wp_post) {
                     $box->set('post', post::create($wp_post));
                 });
         });
 
-        $this->getContainer()->add('metabox.driver.global-composing', function () {
+        $this->getContainer()->add(GlobalComposingMetaboxContract::class, function () {
             return (new GlobalMetabox())->setThemeSuite($this->getContainer()->get('theme-suite'))
                 ->setHandler(function (MetaboxDriver $box, WP_Post $wp_post) {
                     $box->set('post', post::create($wp_post));
                 });
         });
 
-        $this->getContainer()->add('metabox.driver.singular-composing', function () {
+        $this->getContainer()->add(SingularComposingMetaboxContract::class, function () {
             return (new SingularMetabox())->setThemeSuite($this->getContainer()->get('theme-suite'))
                 ->setHandler(function (MetaboxDriver $box, WP_Post $wp_post) {
                     $box->set('post', post::create($wp_post));

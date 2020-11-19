@@ -2,9 +2,10 @@
 
 namespace tiFy\Plugins\ThemeSuite\Metabox\Post\Composing;
 
+use tiFy\Plugins\ThemeSuite\Contracts\ArchiveComposingMetabox as ArchiveComposingMetaboxContract;
 use tiFy\Plugins\ThemeSuite\Metabox\AbstractMetaboxDriver;
 
-class ArchiveMetabox extends AbstractMetaboxDriver
+class ArchiveMetabox extends AbstractMetaboxDriver implements ArchiveComposingMetaboxContract
 {
     /**
      * @inheritDoc
@@ -20,7 +21,7 @@ class ArchiveMetabox extends AbstractMetaboxDriver
     /**
      * @inheritDoc
      */
-    protected function viewerDirectory(): string
+    public function viewDirectory(): string
     {
         return $this->ts()->resources('views/metabox/post/composing/archive');
     }
