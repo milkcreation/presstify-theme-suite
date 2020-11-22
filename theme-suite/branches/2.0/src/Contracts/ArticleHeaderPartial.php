@@ -2,12 +2,12 @@
 
 namespace tiFy\Plugins\ThemeSuite\Contracts;
 
-use tiFy\Contracts\Metabox\MetaboxDriver;
+use tiFy\Contracts\Partial\PartialDriver;
 
 /**
  * @mixin \tiFy\Plugins\ThemeSuite\ThemeSuiteAwareTrait
  */
-interface ArchiveComposingMetabox extends MetaboxDriver
+interface ArticleHeaderPartial extends PartialDriver
 {
 
 }

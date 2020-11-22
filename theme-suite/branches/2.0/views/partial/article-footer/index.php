@@ -4,6 +4,12 @@
  * @var tiFy\Wordpress\Contracts\Query\QueryPost|null $article
  */
 ?>
-<div <?php echo $this->htmlAttrs(); ?>>
-    <?php echo $this->get('content'); ?>
-</div>
+<?php if ($this->get('enabled', false)) : ?>
+    <div <?php echo $this->htmlAttrs(); ?>>
+        <?php if ($this->get('content') !== false) : ?>
+            <div class="ArticleFooter-content">
+                <?php echo $this->get('content'); ?>
+            </div>
+        <?php endif; ?>
+    </div>
+<?php endif;
