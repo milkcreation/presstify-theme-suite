@@ -1,5 +1,11 @@
 # Release Notes
 
+## [v2.0.6 (2020-11-22)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.6...v2.0.6)
+
+### Fixed 
+
+- ArticleHeader + ArticleFooter : Correctifs et ajustements conditionnement
+
 ## [v2.0.5 (2020-11-22)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.5...v2.0.5)
 
 ### Changed 

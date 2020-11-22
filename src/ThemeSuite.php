@@ -9,13 +9,13 @@ use tiFy\Plugins\ThemeSuite\Contracts\ArchiveComposingMetabox;
 use tiFy\Plugins\ThemeSuite\Contracts\GlobalComposingMetabox;
 use tiFy\Plugins\ThemeSuite\Contracts\ImageGalleryMetabox;
 use tiFy\Plugins\ThemeSuite\Contracts\SingularComposingMetabox;
-use tiFy\Plugins\ThemeSuite\Partial\ArticleBodyPartial;
-use tiFy\Plugins\ThemeSuite\Partial\ArticleCardPartial;
-use tiFy\Plugins\ThemeSuite\Partial\ArticleChildrenPartial;
-use tiFy\Plugins\ThemeSuite\Partial\ArticleFooterPartial;
-use tiFy\Plugins\ThemeSuite\Partial\ArticleHeaderPartial;
-use tiFy\Plugins\ThemeSuite\Partial\ArticleTitlePartial;
-use tiFy\Plugins\ThemeSuite\Partial\NavMenuPartial;
+use tiFy\Plugins\ThemeSuite\Contracts\ArticleBodyPartial;
+use tiFy\Plugins\ThemeSuite\Contracts\ArticleCardPartial;
+use tiFy\Plugins\ThemeSuite\Contracts\ArticleChildrenPartial;
+use tiFy\Plugins\ThemeSuite\Contracts\ArticleFooterPartial;
+use tiFy\Plugins\ThemeSuite\Contracts\ArticleHeaderPartial;
+use tiFy\Plugins\ThemeSuite\Contracts\ArticleTitlePartial;
+use tiFy\Plugins\ThemeSuite\Contracts\NavMenuPartial;
 use tiFy\Plugins\ThemeSuite\Contracts\ThemeSuite as ThemeSuiteContract;
 use tiFy\Support\ParamsBag;
 use tiFy\Support\Proxy\Metabox;
@@ -41,6 +41,20 @@ class ThemeSuite implements ThemeSuiteContract
      * @var array
      */
     private $defaultProviders = [];
+
+    /**
+     * Liste des pilotes de métabox.
+     * @var array
+     */
+    private $partialDrivers = [
+        'article-body'     => ArticleBodyPartial::class,
+        'article-card'     => ArticleCardPartial::class,
+        'article-children' => ArticleChildrenPartial::class,
+        'article-header'   => ArticleHeaderPartial::class,
+        'article-footer'   => ArticleFooterPartial::class,
+        'article-title'    => ArticleTitlePartial::class,
+        'nav-menu'         => NavMenuPartial::class,
+    ];
 
     /**
      * Liste des pilotes de métabox.
@@ -108,13 +122,13 @@ class ThemeSuite implements ThemeSuiteContract
     public function boot(): ThemeSuiteContract
     {
         if (!$this->booted) {
-            Partial::register('article-body', (new ArticleBodyPartial())->setThemeSuite($this));
-            Partial::register('article-card', (new ArticleCardPartial())->setThemeSuite($this));
-            Partial::register('article-children', (new ArticleChildrenPartial())->setThemeSuite($this));
-            Partial::register('article-header', (new ArticleHeaderPartial())->setThemeSuite($this));
-            Partial::register('article-footer', (new ArticleFooterPartial())->setThemeSuite($this));
-            Partial::register('article-title', (new ArticleTitlePartial())->setThemeSuite($this));
-            Partial::register('nav-menu', (new NavMenuPartial())->setThemeSuite($this));
+            events()->trigger('theme-suite.boot');
+
+            foreach ($this->partialDrivers as $alias => $abstract) {
+                if ($this->getContainer()->has($abstract)) {
+                    Partial::register($alias, $this->getContainer()->get($abstract));
+                }
+            }
 
             add_action('after_setup_theme', function () {
                 foreach ($this->metaboxDrivers as $alias => $abstract) {
@@ -136,6 +150,8 @@ class ThemeSuite implements ThemeSuiteContract
             });
 
             $this->booted = true;
+
+            events()->trigger('theme-suite.booted');
         }
 
         return $this;

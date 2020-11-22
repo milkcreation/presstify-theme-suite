@@ -17,16 +17,16 @@
                         <?php if ($mediaImg = $this->params('media-image', [])) : ?>
                             <div class="ImageGalleryMetabox-imagePreview">
                                 <?php echo field('media-image', array_merge($mediaImg, [
-                                    'name'  => $this->name() . "[img][{$i}]",
-                                    'value' => $this->value("img.{$i}"),
+                                    'name'  => $this->name() . "[items][{$i}][img]",
+                                    'value' => $this->value("items.{$i}.img"),
                                 ])); ?>
                             </div>
                         <?php endif; ?>
                         <?php if ($caption = $this->params('caption', [])) : ?>
                             <div class="ImageGalleryMetabox-imageCaption">
                                 <?php echo field('text', array_merge($caption, [
-                                    'name'  => $this->name() . "[caption][{$i}]",
-                                    'value' => $this->value("caption.{$i}"),
+                                    'name'  => $this->name() . "[items][{$i}][caption]",
+                                    'value' => $this->value("items.{$i}.caption"),
                                 ])); ?>
                             </div>
                         <?php endif; ?>

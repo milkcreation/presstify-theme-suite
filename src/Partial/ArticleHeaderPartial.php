@@ -2,11 +2,12 @@
 
 namespace tiFy\Plugins\ThemeSuite\Partial;
 
+use tiFy\Plugins\ThemeSuite\Contracts\ArticleHeaderPartial as ArticleHeaderPartialContract;
 use tiFy\Plugins\ThemeSuite\Query\QueryPost as ThemeSuiteQueryPost;
 use tiFy\Wordpress\Contracts\Query\QueryPost as QueryPostContract;
 use tiFy\Wordpress\Query\QueryPost as post;
 
-class ArticleHeaderPartial extends AbstractPartialDriver
+class ArticleHeaderPartial extends AbstractPartialDriver implements ArticleHeaderPartialContract
 {
     /**
      * @inheritDoc
@@ -14,6 +15,9 @@ class ArticleHeaderPartial extends AbstractPartialDriver
     public function defaults(): array
     {
         return array_merge(parent::defaults(), [
+            /** @var bool */
+            'enabled'    => false,
+            /** @var bool|array */
             'breadcrumb' => true,
             /** @var int|object|false|null */
             'post'       => null,
@@ -27,56 +31,46 @@ class ArticleHeaderPartial extends AbstractPartialDriver
      */
     public function render(): string
     {
-        if (($breadcrumb = $this->get('breadcrumb')) && !is_array($breadcrumb)) {
+        $breadcrumb = $this->get('breadcrumb');
+        $content = $this->get('content');
+        $title = $this->get('title');
+
+        if (!is_array($breadcrumb)) {
             $this->set('breadcrumb', []);
         }
-
-        $content = $this->get('content');
 
         if ($this->get('post') === false) {
             if ($content !== false) {
                 $this->set('attrs.class', $this->get('attrs.class') . ' ArticleHeader--with_content');
             }
 
-            if (($title = $this->get('title')) && is_string($title)) {
-                $this->set('title', [
+            if (is_string($title)) {
+                $title =  [
                     'content' => $title,
                     'post'    => false,
-                ]);
+                ];
             }
-
-            $this->set([
-                'title' => $this->get('title'),
-            ]);
-
-            return parent::render();
+            $this->set(compact('title'));
         } elseif ($article = ($p = $this->get('post', null)) instanceof QueryPostContract ? $p : post::create($p)) {
             if ($article instanceof ThemeSuiteQueryPost) {
-                $enabled = array_merge($article->getArchiveComposing('enabled', []), $this->get('enabled', []));
+                $enabled = $article->getSingularComposing('enabled', []);
 
                 if (is_null($content)) {
-                    $content = $article->getHeader() ?: false;
+                    $content = ($header = $article->getHeader()) && $enabled['header'] ? $header : false;
                 }
-            } else {
-                $enabled = $this->get('enabled', []);
             }
 
             if ($content !== false) {
                 $this->set('attrs.class', $this->get('attrs.class') . ' ArticleHeader--with_content');
             }
 
-            $this->set([
-                'article' => $article,
-                'title'   => [
-                    'post' => $article,
-                ],
-                'content' => $content,
-                'enabled' => $enabled
-            ]);
+            $title = ['post' => $article];
 
-            return parent::render();
+            $this->set(compact('article', 'content', 'title'));
         }
 
-        return '';
+        $this->set('enabled', $this->get('enabled') || !!$breadcrumb || !!$title || !!$content);
+
+        return parent::render();
     }
 }

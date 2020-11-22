@@ -2,11 +2,13 @@
 
 namespace tiFy\Plugins\ThemeSuite\Partial;
 
+use tiFy\Plugins\ThemeSuite\Contracts\ArticleFooterPartial as ArticleFooterPartialContract;
+use tiFy\Plugins\ThemeSuite\Query\QueryPost as ThemeSuiteQueryPost;
 use tiFy\Wordpress\Contracts\Query\QueryPost as QueryPostContract;
 use tiFy\Wordpress\Query\QueryPost as post;
 use tiFy\Support\Proxy\Partial;
 
-class ArticleFooterPartial extends AbstractPartialDriver
+class ArticleFooterPartial extends AbstractPartialDriver implements ArticleFooterPartialContract
 {
     /**
      * @inheritDoc
@@ -14,9 +16,11 @@ class ArticleFooterPartial extends AbstractPartialDriver
     public function defaults(): array
     {
         return array_merge(parent::defaults(), [
+            /** @var bool */
+            'enabled' => false,
             /** @var int|object|false|null */
-            'post'     => null,
-            'content'  => null
+            'post'    => null,
+            'content' => null,
         ]);
     }
 
@@ -25,19 +29,33 @@ class ArticleFooterPartial extends AbstractPartialDriver
      */
     public function render(): string
     {
+        $content = $this->get('content');
+
         if ($this->get('post') === false) {
             return parent::render();
         } elseif ($article = ($p = $this->get('post', null)) instanceof QueryPostContract ? $p : post::create($p)) {
-            if ($content = Partial::get('article-children', ['post' => $article])->render()) {
-                $this->set([
-                    'article' => $article,
-                    'content' => $content
-                ]);
+            if ($article instanceof ThemeSuiteQueryPost) {
+                $enabled = $article->getSingularComposing('enabled', []);
 
-                return parent::render();
+                if ($enabled['children']) {
+                    $children = Partial::get('article-children', ['post' => $article])->render();
+
+                    if ($children) {
+                        $this->set([
+                            'children' => $children,
+                            'enabled'  => true
+                        ]);
+                    }
+                }
             }
+
+            $this->set([
+                'article' => $article,
+            ]);
         }
 
-        return '';
+        $this->set('enabled', $this->get('enabled') || !!$content);
+
+        return parent::render();
     }
 }

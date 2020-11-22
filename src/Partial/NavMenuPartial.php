@@ -2,11 +2,12 @@
 
 namespace tiFy\Plugins\ThemeSuite\Partial;
 
+use tiFy\Plugins\ThemeSuite\Contracts\NavMenuPartial as NavMenuPartialContract;
 use tiFy\Contracts\Partial\Tag;
 use tiFy\Contracts\Partial\PartialDriver;
 use tiFy\Support\Proxy\Partial;
 
-class NavMenuPartial extends AbstractPartialDriver
+class NavMenuPartial extends AbstractPartialDriver implements NavMenuPartialContract
 {
     /**
      * @inheritDoc

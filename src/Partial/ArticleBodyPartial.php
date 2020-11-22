@@ -2,11 +2,12 @@
 
 namespace tiFy\Plugins\ThemeSuite\Partial;
 
+use tiFy\Plugins\ThemeSuite\Contracts\ArticleBodyPartial as ArticleBodyPartialContract;
 use tiFy\Plugins\ThemeSuite\Query\QueryPost as ThemeSuiteQueryPost;
 use tiFy\Wordpress\Contracts\Query\QueryPost as QueryPostContract;
 use tiFy\Wordpress\Query\QueryPost as post;
 
-class ArticleBodyPartial extends AbstractPartialDriver
+class ArticleBodyPartial extends AbstractPartialDriver implements ArticleBodyPartialContract
 {
     /**
      * @inheritDoc
