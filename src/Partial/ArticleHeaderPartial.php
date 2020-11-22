@@ -51,8 +51,14 @@ class ArticleHeaderPartial extends AbstractPartialDriver
 
             return parent::render();
         } elseif ($article = ($p = $this->get('post', null)) instanceof QueryPostContract ? $p : post::create($p)) {
-            if (is_null($content) && $article instanceof ThemeSuiteQueryPost) {
-                $content = $article->getHeaderImg() ?: false;
+            if ($article instanceof ThemeSuiteQueryPost) {
+                $enabled = array_merge($article->getArchiveComposing('enabled', []), $this->get('enabled', []));
+
+                if (is_null($content)) {
+                    $content = $article->getHeader() ?: false;
+                }
+            } else {
+                $enabled = $this->get('enabled', []);
             }
 
             if ($content !== false) {
@@ -65,6 +71,7 @@ class ArticleHeaderPartial extends AbstractPartialDriver
                     'post' => $article,
                 ],
                 'content' => $content,
+                'enabled' => $enabled
             ]);
 
             return parent::render();

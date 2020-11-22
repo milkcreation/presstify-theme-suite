@@ -10,11 +10,23 @@ class ArchiveMetabox extends AbstractMetaboxDriver implements ArchiveComposingMe
     /**
      * @inheritDoc
      */
+    public function defaultParams(): array
+    {
+        return array_merge(parent::defaults(), [
+            'banner'        => true,
+            'banner_format' => false,
+            'excerpt'       => true,
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function defaults(): array
     {
         return array_merge(parent::defaults(), [
-            'name'     => '_archive_composing',
-            'title'    => __('Compo. page de flux', 'tify'),
+            'name'  => '_archive_composing',
+            'title' => __('Compo. page de flux', 'tify'),
         ]);
     }
 

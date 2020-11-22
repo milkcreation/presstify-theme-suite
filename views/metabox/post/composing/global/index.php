@@ -5,42 +5,25 @@
  * @var tiFy\Plugins\ThemeSuite\Query\QueryPost $post
  */
 ?>
-<h3><?php _e('Titre alternatif', 'tify'); ?></h3>
+<?php if ($this->params('baseline') || $this->params('alt_title') || $this->params('subtitle')) : ?>
+    <h3><?php _e('Titres', 'tify'); ?></h3>
 
-<table class="form-table">
-    <tr>
-        <th><?php _e('Titre haut (fin)', 'tify'); ?></th>
-        <td>
-            <?php echo field('text', [
-                'attrs' => [
-                    'class' => 'widefat',
-                ],
-                'name'    => $this->name() .'[alt_top_title]',
-                'value'   => $post->getGlobalComposing('alt_top_title')
-            ]); ?>
-        </td>
-    </tr>
-    <tr>
-        <th><?php _e('Titre bas (gras)', 'tify'); ?></th>
-        <td>
-            <?php echo field('text', [
-                'attrs' => [
-                    'class' => 'widefat',
-                ],
-                'name'    => $this->name() .'[alt_bottom_title]',
-                'value'   => $post->getGlobalComposing('alt_bottom_title')
-            ]); ?>
-        </td>
-    </tr>
-    <tr>
-        <th><?php _e('Image représentative par défaut', 'tify'); ?></th>
-        <td>
-            <?php echo field('media-image', [
-                'width' => 1920,
-                'height'=> 1080,
-                'name'  => '_thumbnail_id',
-                'value' => $post->getMetaSingle('_thumbnail_id', -1),
-            ]); ?>
-        </td>
-    </tr>
-</table>
+    <table class="form-table">
+        <?php if ($this->params('baseline')) : ?>
+            <?php $this->insert('baseline', $this->all()); ?>
+        <?php endif; ?>
+
+        <?php if ($this->params('alt_title')) : ?>
+            <?php $this->insert('alt_title', $this->all()); ?>
+        <?php endif; ?>
+
+        <?php if ($this->params('subtitle')) : ?>
+            <?php $this->insert('subtitle', $this->all()); ?>
+        <?php endif; ?>
+    </table>
+<?php endif; ?>
+
+
+<?php if ($this->params('thumbnail') && $post->getType()->supports('thumbnail')) : ?>
+    <?php $this->insert('thumbnail', $this->all()); ?>
+<?php endif; ?>
