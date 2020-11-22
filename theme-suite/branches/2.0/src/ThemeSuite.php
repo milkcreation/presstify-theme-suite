@@ -31,7 +31,7 @@ class ThemeSuite implements ThemeSuiteContract
     private static $instance;
 
     /**
-     * Indicateur d'initialisation.
+     * Indicateur de chargement.
      * @var bool
      */
     private $booted = false;
@@ -99,7 +99,7 @@ class ThemeSuite implements ThemeSuiteContract
             return self::$instance;
         }
 
-        throw new Exception('Unavailable ThemeSuite instance');
+        throw new Exception(sprintf('Unavailable %s instance', __CLASS__));
     }
 
     /**

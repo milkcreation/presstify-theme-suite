@@ -29,15 +29,18 @@ class ArticleTitlePartial extends AbstractPartialDriver
         if ($this->get('post') === false) {
             return parent::render();
         } elseif ($article = ($p = $this->get('post', null)) instanceof QueryPostContract ? $p : post::create($p)) {
-            $enabled = ($article instanceof ThemeSuiteQueryPost)
-                ? array_merge($article->getSingularComposing('enabled', []), $this->get('enabled', []))
-                : $this->get('enabled', []);
+            if ($article instanceof ThemeSuiteQueryPost) {
+                $enabled = array_merge($article->getSingularComposing('enabled', []), $this->get('enabled', []));
+            } else {
+                $enabled = $this->get('enabled', []);
+            }
 
             $this->set([
                 'article' => $article,
                 'before'  => $enabled['baseline'] ? $article->getBaseline() : false,
                 'content' => $article->getTitle(),
                 'after'   => $enabled['subtitle'] ? $article->getSubtitle() : false,
+                'enabled' => $enabled
             ]);
 
             return parent::render();

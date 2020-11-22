@@ -10,11 +10,7 @@
            title="<?php printf($this->get('readmore.title', __('Consulter %s', 'tify')), $article->getTitle()); ?>">
             <?php if ($this->get('enabled.thumb')) : ?>
                 <figure class="ArticleCard-thumb">
-                    <?php if ($img = $article->getThumbnail('banner', ['class' => 'ArticleCard-thumbImg'])) : ?>
-                        <?php echo $img; ?>
-                    <?php elseif ($holder = $this->get('holder')) : ?>
-                        <?php echo $holder; ?>
-                    <?php endif; ?>
+                    <?php echo $this->get('thumbnail'); ?>
                 </figure>
             <?php endif; ?>
 

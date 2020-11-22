@@ -31,11 +31,24 @@ class GlobalMetabox extends AbstractMetaboxDriver implements GlobalComposingMeta
     /**
      * @inheritDoc
      */
+    public function defaultParams(): array
+    {
+        return array_merge(parent::defaults(), [
+            'baseline'  => false,
+            'alt_title' => false,
+            'subtitle'  => false,
+            'thumbnail' => true
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function defaults(): array
     {
         return array_merge(parent::defaults(), [
-            'name'     => '_global_composing',
-            'title'    => __('Compo. générale', 'tify'),
+            'name'  => '_global_composing',
+            'title' => __('Compo. générale', 'tify'),
         ]);
     }
 

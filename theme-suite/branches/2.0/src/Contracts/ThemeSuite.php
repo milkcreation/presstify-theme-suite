@@ -19,7 +19,7 @@ interface ThemeSuite
     public static function instance(): ThemeSuite;
 
     /**
-     * Initialisation du gestionnaire.
+     * Chargement.
      *
      * @return static
      */

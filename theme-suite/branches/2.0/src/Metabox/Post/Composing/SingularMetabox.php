@@ -10,11 +10,24 @@ class SingularMetabox extends AbstractMetaboxDriver implements SingularComposing
     /**
      * @inheritDoc
      */
+    public function defaultParams(): array
+    {
+        return array_merge(parent::defaults(), [
+            'header'         => true,
+            'children'       => false,
+            'children_title' => false,
+            'children_edit'  => false
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function defaults(): array
     {
         return array_merge(parent::defaults(), [
-            'name'     => '_singular_composing',
-            'title'    => __('Compo. page de contenu', 'tify'),
+            'name'  => '_singular_composing',
+            'title' => __('Compo. page de contenu', 'tify'),
         ]);
     }
 

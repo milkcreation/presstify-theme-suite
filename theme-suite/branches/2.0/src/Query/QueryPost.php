@@ -72,15 +72,10 @@ class QueryPost extends BaseQueryPost implements QueryPostContract
                 $this->defaultsArchiveComposing, $this->getMetaSingle($this->archiveComposingKey, [])
             );
 
-            $enabled = array_merge([
-                'adjust'   => false,
-                'banner'   => true,
-                'baseline' => true,
-                'date'     => false,
-                'excerpt'  => true,
-                'readmore' => true,
-                'subtitle' => true,
-                'title'    => true,
+            $enabled = array_merge($this->getGlobalComposing('enabled', []), [
+                'banner'        => true,
+                'banner_format' => false,
+                'excerpt'       => true,
             ], $params['enabled'] ?? []);
             array_walk($enabled, function (&$opt) {
                 $opt = filter_var($opt, FILTER_VALIDATE_BOOLEAN);
@@ -96,23 +91,15 @@ class QueryPost extends BaseQueryPost implements QueryPostContract
     /**
      * @inheritDoc
      */
-    public function getAltBottomTitle(): string
+    public function getAltTitle(): string
     {
-        return $this->getGlobalComposing('alt_bottom_title', '') ?: $this->getTitle();
+        return $this->getGlobalComposing('alt_title') ?: '';
     }
 
     /**
      * @inheritDoc
      */
-    public function getAltTopTitle(): string
-    {
-        return $this->getGlobalComposing('alt_top_title', '');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getBannerImg(array $attrs = []): string
+    public function getBanner(array $attrs = []): string
     {
         if (!$id = $this->getArchiveComposing('banner_img', 0)) {
             return $this->getThumbnail('composing-banner', $attrs);
@@ -128,23 +115,15 @@ class QueryPost extends BaseQueryPost implements QueryPostContract
      */
     public function getBaseline(): string
     {
-        return $this->getSingularComposing('baseline', '');
+        return $this->getGlobalComposing('baseline') ?: '';
     }
 
     /**
      * @inheritDoc
      */
-    public function getChildrenBottomTitle(): string
+    public function getChildrenTitle(): string
     {
-        return $this->getSingularComposing('children_bottom_title', '') ?: $this->getTitle();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getChildrenTopTitle(): string
-    {
-        return $this->getSingularComposing('children_top_title', '') ?: __('En relation avec', 'tify');
+        return $this->getSingularComposing('children_title') ?: '';
     }
 
     /**
@@ -155,7 +134,11 @@ class QueryPost extends BaseQueryPost implements QueryPostContract
         if (is_null($this->globalComposing)) {
             $params = array_merge($this->defaultsGlobalComposing, $this->getMetaSingle($this->globalComposingKey, []));
 
-            $enabled = $params['enabled'] ?? [];
+            $enabled = array_merge([
+                'alt_title' => true,
+                'baseline'  => true,
+                'subtitle'  => true,
+            ], $params['enabled'] ?? []);
             array_walk($enabled, function (&$opt) {
                 $opt = filter_var($opt, FILTER_VALIDATE_BOOLEAN);
             });
@@ -170,7 +153,7 @@ class QueryPost extends BaseQueryPost implements QueryPostContract
     /**
      * @inheritDoc
      */
-    public function getHeaderImg(array $attrs = []): string
+    public function getHeader(array $attrs = []): string
     {
         if (!$id = $this->getSingularComposing('header_img', 0)) {
             return $this->getThumbnail('composing-header', $attrs);
@@ -184,17 +167,9 @@ class QueryPost extends BaseQueryPost implements QueryPostContract
     /**
      * @inheritDoc
      */
-    public function getRelatedBottomTitle(): string
+    public function getRelatedTitle(): string
     {
-        return $this->getSingularComposing('related_bottom_title', '') ?: '';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getRelatedTopTitle(): string
-    {
-        return $this->getSingularComposing('related_top_title', '') ?: '';
+        return $this->getSingularComposing('related_title') ?: '';
     }
 
     /**
@@ -207,14 +182,11 @@ class QueryPost extends BaseQueryPost implements QueryPostContract
                 $this->defaultsSingularComposing, $this->getMetaSingle($this->singularComposingKey, [])
             );
 
-            $enabled = array_merge([
-                'children' => true,
-                'baseline' => true,
-                'content'  => true,
-                'date'     => false,
-                'subtitle' => true,
-                'title'    => true,
-                'header'   => false,
+            $enabled = array_merge($this->getGlobalComposing('enabled', []), [
+                'children'       => true,
+                'children_title' => true,
+                'content'        => true,
+                'header'         => false,
             ], $params['enabled'] ?? []);
             array_walk($enabled, function (&$opt) {
                 $opt = filter_var($opt, FILTER_VALIDATE_BOOLEAN);
@@ -232,6 +204,6 @@ class QueryPost extends BaseQueryPost implements QueryPostContract
      */
     public function getSubtitle(): string
     {
-        return $this->getSingularComposing('subtitle', '');
+        return $this->getGlobalComposing('subtitle') ?: '';
     }
 }

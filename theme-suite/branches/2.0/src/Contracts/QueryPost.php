@@ -19,18 +19,11 @@ interface QueryPost extends BaseQueryPost
     public function getArchiveComposing(?string $key = null, $default = null);
 
     /**
-     * Récupération du titre alternatif bas.
+     * Récupération du titre alternatif.
      *
      * @return string
      */
-    public function getAltBottomTitle(): string;
-
-    /**
-     * Récupération du titre alternatif haut.
-     *
-     * @return string
-     */
-    public function getAltTopTitle(): string;
+    public function getAltTitle(): string;
 
     /**
      * Récupération de la bannière des page de flux.
@@ -39,7 +32,7 @@ interface QueryPost extends BaseQueryPost
      *
      * @return string
      */
-    public function getBannerImg(array $attrs = []): string;
+    public function getBanner(array $attrs = []): string;
 
     /**
      * Récupération du slogan.
@@ -49,18 +42,11 @@ interface QueryPost extends BaseQueryPost
     public function getBaseline(): string;
 
     /**
-     * Récupération du titre bas des publications apparentées.
+     * Récupération du titre des publications apparentées.
      *
      * @return string
      */
-    public function getChildrenBottomTitle(): string;
-
-    /**
-     * Récupération du titre haut des publications apparentées.
-     *
-     * @return string
-     */
-    public function getChildrenTopTitle(): string;
+    public function getChildrenTitle(): string;
 
     /**
      * Récupération d'options d'affichage généraux.
@@ -79,21 +65,15 @@ interface QueryPost extends BaseQueryPost
      *
      * @return string
      */
-    public function getHeaderImg(array $attrs = []): string;
+    public function getHeader(array $attrs = []): string;
 
     /**
-     * Récupération du title bas des éléments de flux associés.
+     * Récupération du titre des éléments associés.
      *
      * @return string
      */
-    public function getRelatedBottomTitle(): string;
+    public function getRelatedTitle(): string;
 
-    /**
-     * Récupération du title haut des élément de flux associés.
-     *
-     * @return string
-     */
-    public function getRelatedTopTitle(): string;
     /**
      * Récupération d'options de la page de contenu.
      *

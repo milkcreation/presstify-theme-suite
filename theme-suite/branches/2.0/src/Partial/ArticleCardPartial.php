@@ -32,11 +32,16 @@ class ArticleCardPartial extends AbstractPartialDriver
     public function render(): string
     {
         if ($article = ($p = $this->get('post', null)) instanceof QueryPostContract ? $p : post::create($p)) {
-            $enabled = ($article instanceof ThemeSuiteQueryPost)
-                ? array_merge($article->getSingularComposing('enabled', []), $this->get('enabled', []))
-                : $this->get('enabled', []);
+            if ($article instanceof ThemeSuiteQueryPost) {
+                $enabled = array_merge($article->getSingularComposing('enabled', []), $this->get('enabled', []));
 
-            if ($this->get('holder') !== false) {
+                $this->set('thumbnail', $article->getBanner());
+            } else {
+                $enabled = $this->get('enabled', []);
+                $this->set('thumbnail', $article->getThumbnail('composing-banner'));
+            }
+
+            if (!$this->get('thumbnail') && ($this->get('holder') !== false)) {
                 $holder = $this->get('holder', null);
                 if (!is_string($holder)) {
                     $holder = Partial::get('holder', array_merge([
@@ -47,7 +52,7 @@ class ArticleCardPartial extends AbstractPartialDriver
                         'height' => 270,
                     ], is_array($holder) ? $holder : []));
                 }
-                $this->set(compact('holder'));
+                $this->set('thumbnail', $holder);
             }
 
             if ($this->get('readmore') !== false) {

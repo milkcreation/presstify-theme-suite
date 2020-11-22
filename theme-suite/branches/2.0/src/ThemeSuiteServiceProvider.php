@@ -35,13 +35,9 @@ class ThemeSuiteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->getContainer()->share('theme-suite', function () {
-            return new ThemeSuite(config('theme-suite', []), $this->getContainer());
-        });
-
-        if (($wp = $this->getContainer()->get('wp')) && $wp->is()) {
+        events()->listen('wp.booted', function () {
             $this->getContainer()->get('theme-suite')->boot();
-        }
+        });
     }
 
     /**
@@ -49,6 +45,10 @@ class ThemeSuiteServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->getContainer()->share('theme-suite', function () {
+            return new ThemeSuite(config('theme-suite', []), $this->getContainer());
+        });
+
         $this->registerMetaboxDrivers();
     }
 

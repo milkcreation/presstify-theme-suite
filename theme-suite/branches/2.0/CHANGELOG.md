@@ -1,5 +1,18 @@
 # Release Notes
 
+## [v2.0.5 (2020-11-22)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.5...v2.0.5)
+
+### Changed 
+
+- Adaptation de QueryPost
+- Chargement wp.booted
+- Décomposition des vues metabox pour faciliter la surcharge
+- Correction des partial
+
+### Added
+
+- Script composing archive + singular
+
 ## [v2.0.4 (2020-11-18)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.4...v2.0.4)
 
 - Ajout de l'attribut titre aux liens
