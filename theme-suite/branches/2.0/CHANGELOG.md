@@ -1,5 +1,15 @@
 # Release Notes
 
+## [v2.0.7 (2020-11-23)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.7...v2.0.7)
+
+### Fixed
+
+- ArticleHeader : Correctif $content === false hors post
+
+### Added 
+
+- ComposingColumn :  A mettre en place
+
 ## [v2.0.6 (2020-11-22)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.6...v2.0.6)
 
 ### Fixed 

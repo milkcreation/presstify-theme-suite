@@ -40,8 +40,10 @@ class ArticleHeaderPartial extends AbstractPartialDriver implements ArticleHeade
         }
 
         if ($this->get('post') === false) {
-            if ($content !== false) {
+            if (! empty($content)) {
                 $this->set('attrs.class', $this->get('attrs.class') . ' ArticleHeader--with_content');
+            } else {
+                $content = false;
             }
 
             if (is_string($title)) {
@@ -49,8 +51,11 @@ class ArticleHeaderPartial extends AbstractPartialDriver implements ArticleHeade
                     'content' => $title,
                     'post'    => false,
                 ];
+            } elseif (is_array($title)) {
+                $title = array_merge(['post' => false], $title);
             }
-            $this->set(compact('title'));
+
+            $this->set(compact('content', 'title'));
         } elseif ($article = ($p = $this->get('post', null)) instanceof QueryPostContract ? $p : post::create($p)) {
             if ($article instanceof ThemeSuiteQueryPost) {
                 $enabled = $article->getSingularComposing('enabled', []);
