@@ -1,5 +1,11 @@
 # Release Notes
 
+## [v2.0.8 (2020-11-25)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.8...v2.0.8)
+
+### Changed 
+
+- ArticleTitle - --before --content --after >> -before -content -after
+
 ## [v2.0.7 (2020-11-23)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.7...v2.0.7)
 
 ### Fixed
