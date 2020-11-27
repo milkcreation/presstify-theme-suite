@@ -3,7 +3,7 @@
 namespace tiFy\Plugins\ThemeSuite\Partial;
 
 use tiFy\Plugins\ThemeSuite\Contracts\ArticleTitlePartial as ArticleTitlePartialContract;
-use tiFy\Plugins\ThemeSuite\Query\QueryPost as ThemeSuiteQueryPost;
+use tiFy\Plugins\ThemeSuite\Contracts\QueryPostComposing;
 use tiFy\Wordpress\Contracts\Query\QueryPost as QueryPostContract;
 use tiFy\Wordpress\Query\QueryPost as post;
 
@@ -30,7 +30,7 @@ class ArticleTitlePartial extends AbstractPartialDriver implements ArticleTitleP
         if ($this->get('post') === false) {
             return parent::render();
         } elseif ($article = ($p = $this->get('post', null)) instanceof QueryPostContract ? $p : post::create($p)) {
-            if ($article instanceof ThemeSuiteQueryPost) {
+            if ($article instanceof QueryPostComposing) {
                 $enabled = array_merge($article->getSingularComposing('enabled', []), $this->get('enabled', []));
             } else {
                 $enabled = $this->get('enabled', []);

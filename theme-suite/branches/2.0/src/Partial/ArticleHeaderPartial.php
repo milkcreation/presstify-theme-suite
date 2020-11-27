@@ -3,7 +3,7 @@
 namespace tiFy\Plugins\ThemeSuite\Partial;
 
 use tiFy\Plugins\ThemeSuite\Contracts\ArticleHeaderPartial as ArticleHeaderPartialContract;
-use tiFy\Plugins\ThemeSuite\Query\QueryPost as ThemeSuiteQueryPost;
+use tiFy\Plugins\ThemeSuite\Contracts\QueryPostComposing;
 use tiFy\Wordpress\Contracts\Query\QueryPost as QueryPostContract;
 use tiFy\Wordpress\Query\QueryPost as post;
 
@@ -57,7 +57,7 @@ class ArticleHeaderPartial extends AbstractPartialDriver implements ArticleHeade
 
             $this->set(compact('content', 'title'));
         } elseif ($article = ($p = $this->get('post', null)) instanceof QueryPostContract ? $p : post::create($p)) {
-            if ($article instanceof ThemeSuiteQueryPost) {
+            if ($article instanceof QueryPostComposing) {
                 $enabled = $article->getSingularComposing('enabled', []);
 
                 if (is_null($content)) {

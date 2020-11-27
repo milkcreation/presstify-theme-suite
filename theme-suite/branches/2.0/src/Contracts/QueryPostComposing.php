@@ -3,9 +3,8 @@
 namespace tiFy\Plugins\ThemeSuite\Contracts;
 
 use tiFy\Contracts\Support\ParamsBag;
-use tiFy\Wordpress\Contracts\Query\QueryPost as BaseQueryPost;
 
-interface QueryPost extends BaseQueryPost
+interface QueryPostComposing
 {
 
     /**

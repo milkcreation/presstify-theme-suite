@@ -3,7 +3,7 @@
 namespace tiFy\Plugins\ThemeSuite\Partial;
 
 use tiFy\Plugins\ThemeSuite\Contracts\ArticleChildrenPartial as ArticleChildrenPartialContract;
-use tiFy\Plugins\ThemeSuite\Query\QueryPost as ThemeSuiteQueryPost;
+use tiFy\Plugins\ThemeSuite\Contracts\QueryPostComposing;
 use tiFy\Wordpress\Contracts\Query\QueryPost as QueryPostContract;
 use tiFy\Wordpress\Query\QueryPost as post;
 
@@ -36,7 +36,7 @@ class ArticleChildrenPartial extends AbstractPartialDriver implements ArticleChi
                 return '';
             }
 
-            if ($article instanceof ThemeSuiteQueryPost) {
+            if ($article instanceof QueryPostComposing) {
                 $enabled = array_merge($article->getSingularComposing('enabled', []), $this->get('enabled', []));
             } else  {
                 $enabled = $this->get('enabled', []);
