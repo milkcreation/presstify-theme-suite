@@ -1,5 +1,11 @@
 # Release Notes
 
+## [v2.0.9 (2020-11-27)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.9...v2.0.9)
+
+### Fixed
+
+- Correctif compatibilité QueryPost >> Création de QueryPostComposingTrait et Interface associé + modification de la vérification d'instance des partials 
+
 ## [v2.0.8 (2020-11-25)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.8...v2.0.8)
 
 ### Changed 

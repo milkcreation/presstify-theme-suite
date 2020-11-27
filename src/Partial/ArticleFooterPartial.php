@@ -3,7 +3,7 @@
 namespace tiFy\Plugins\ThemeSuite\Partial;
 
 use tiFy\Plugins\ThemeSuite\Contracts\ArticleFooterPartial as ArticleFooterPartialContract;
-use tiFy\Plugins\ThemeSuite\Query\QueryPost as ThemeSuiteQueryPost;
+use tiFy\Plugins\ThemeSuite\Contracts\QueryPostComposing;
 use tiFy\Wordpress\Contracts\Query\QueryPost as QueryPostContract;
 use tiFy\Wordpress\Query\QueryPost as post;
 use tiFy\Support\Proxy\Partial;
@@ -34,7 +34,7 @@ class ArticleFooterPartial extends AbstractPartialDriver implements ArticleFoote
         if ($this->get('post') === false) {
             return parent::render();
         } elseif ($article = ($p = $this->get('post', null)) instanceof QueryPostContract ? $p : post::create($p)) {
-            if ($article instanceof ThemeSuiteQueryPost) {
+            if ($article instanceof QueryPostComposing) {
                 $enabled = $article->getSingularComposing('enabled', []);
 
                 if ($enabled['children']) {

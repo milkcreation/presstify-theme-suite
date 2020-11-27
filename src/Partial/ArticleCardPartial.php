@@ -3,7 +3,7 @@
 namespace tiFy\Plugins\ThemeSuite\Partial;
 
 use tiFy\Plugins\ThemeSuite\Contracts\ArticleCardPartial as ArticleCardPartialContract;
-use tiFy\Plugins\ThemeSuite\Query\QueryPost as ThemeSuiteQueryPost;
+use tiFy\Plugins\ThemeSuite\Contracts\QueryPostComposing;
 use tiFy\Support\Proxy\Partial;
 use tiFy\Wordpress\Contracts\Query\QueryPost as QueryPostContract;
 use tiFy\Wordpress\Query\QueryPost as post;
@@ -33,7 +33,7 @@ class ArticleCardPartial extends AbstractPartialDriver implements ArticleCardPar
     public function render(): string
     {
         if ($article = ($p = $this->get('post', null)) instanceof QueryPostContract ? $p : post::create($p)) {
-            if ($article instanceof ThemeSuiteQueryPost) {
+            if ($article instanceof QueryPostComposing) {
                 $enabled = array_merge($article->getArchiveComposing('enabled', []), $this->get('enabled', []));
 
                 $this->set('thumbnail', $article->getBanner());
