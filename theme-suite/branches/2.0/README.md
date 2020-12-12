@@ -1,6 +1,6 @@
 # Theme Suite PresstiFy Plugin
 
-[![Latest Version](https://img.shields.io/badge/release-2.0.9-blue?style=for-the-badge)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.9)
+[![Latest Version](https://img.shields.io/badge/release-2.0.10-blue?style=for-the-badge)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.10)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE.md)
 
 **Theme Suite** is a large collection of PresstiFy components dedicated to building apps.
@@ -32,7 +32,7 @@ return [
 
 ```php
 // config/theme-suite.php
-// @see /vendor/presstify-plugins/theme-suite/config/theme-suite.php
+// @see /vendor/presstify-plugins/theme-suite/resources/config/theme-suite.php
 return [
       //...
 

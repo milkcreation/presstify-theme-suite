@@ -12,9 +12,9 @@ class ArticleChildrenPartial extends AbstractPartialDriver implements ArticleChi
     /**
      * @inheritDoc
      */
-    public function defaults(): array
+    public function defaultParams(): array
     {
-        return array_merge(parent::defaults(), [
+        return array_merge(parent::defaultParams(), [
             'enabled'    => [
                 'children' => true
             ],

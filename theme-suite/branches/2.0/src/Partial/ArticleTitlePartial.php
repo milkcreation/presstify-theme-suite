@@ -12,12 +12,14 @@ class ArticleTitlePartial extends AbstractPartialDriver implements ArticleTitleP
     /**
      * @inheritDoc
      */
-    public function defaults(): array
+    public function defaultParams(): array
     {
-        return array_merge(parent::defaults(), [
+        return array_merge(parent::defaultParams(), [
             'tag'     => 'h1',
             'content' => null,
-            /** @var int|object|false|null */
+            /**
+             * @var int|object|false|null
+             */
             'post'    => null,
         ]);
     }

@@ -1,5 +1,11 @@
 # Release Notes
 
+## [v2.0.10 (2020-12-12)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.10...v2.0.10)
+
+### Changed
+
+- Passe réécriture partial + SupportTraits + dossier resources
+
 ## [v2.0.9 (2020-11-27)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.9...v2.0.9)
 
 ### Fixed
