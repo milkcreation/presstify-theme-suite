@@ -6,16 +6,15 @@ use tiFy\Plugins\ThemeSuite\Contracts\ArticleFooterPartial as ArticleFooterParti
 use tiFy\Plugins\ThemeSuite\Contracts\QueryPostComposing;
 use tiFy\Wordpress\Contracts\Query\QueryPost as QueryPostContract;
 use tiFy\Wordpress\Query\QueryPost as post;
-use tiFy\Support\Proxy\Partial;
 
 class ArticleFooterPartial extends AbstractPartialDriver implements ArticleFooterPartialContract
 {
     /**
      * @inheritDoc
      */
-    public function defaults(): array
+    public function defaultParams(): array
     {
-        return array_merge(parent::defaults(), [
+        return array_merge(parent::defaultParams(), [
             /** @var bool */
             'enabled' => false,
             /** @var int|object|false|null */
@@ -38,7 +37,7 @@ class ArticleFooterPartial extends AbstractPartialDriver implements ArticleFoote
                 $enabled = $article->getSingularComposing('enabled', []);
 
                 if ($enabled['children']) {
-                    $children = Partial::get('article-children', ['post' => $article])->render();
+                    $children = $this->partialManager()->get('article-children', ['post' => $article])->render();
 
                     if ($children) {
                         $this->set([

@@ -4,6 +4,7 @@ namespace tiFy\Plugins\ThemeSuite;
 
 use tiFy\Container\ServiceProvider;
 use tiFy\Contracts\Metabox\MetaboxDriver;
+use tiFy\Contracts\Partial\Partial as PartialManagerContract;
 use tiFy\Plugins\ThemeSuite\Contracts\ArchiveComposingMetabox as ArchiveComposingMetaboxContract;
 use tiFy\Plugins\ThemeSuite\Contracts\ArticleBodyPartial as ArticleBodyPartialContract;
 use tiFy\Plugins\ThemeSuite\Contracts\ArticleCardPartial as ArticleCardPartialContract;
@@ -12,6 +13,7 @@ use tiFy\Plugins\ThemeSuite\Contracts\ArticleFooterPartial as ArticleFooterParti
 use tiFy\Plugins\ThemeSuite\Contracts\ArticleHeaderPartial as ArticleHeaderPartialContract;
 use tiFy\Plugins\ThemeSuite\Contracts\ArticleTitlePartial as ArticleTitlePartialContract;
 use tiFy\Plugins\ThemeSuite\Contracts\GlobalComposingMetabox as GlobalComposingMetaboxContract;
+use tiFy\Plugins\ThemeSuite\Contracts\ThemeSuite as ThemeSuiteContract;
 use tiFy\Plugins\ThemeSuite\Contracts\ImageGalleryMetabox as ImageGalleryMetaboxContract;
 use tiFy\Plugins\ThemeSuite\Contracts\NavMenuPartial as NavMenuPartialPartialContract;
 use tiFy\Plugins\ThemeSuite\Contracts\SingularComposingMetabox as SingularComposingMetaboxContract;
@@ -37,14 +39,13 @@ class ThemeSuiteServiceProvider extends ServiceProvider
      * @var string[]
      */
     protected $provides = [
-        'theme-suite',
-        'theme-suite.partial.article-body',
-        'theme-suite.partial.article-card',
-        'theme-suite.partial.article-children',
-        'theme-suite.partial.article-footer',
-        'theme-suite.partial.article-header',
-        'theme-suite.partial.article-title',
-        'theme-suite.partial.nav-menu',
+        ThemeSuiteContract::class,
+        ArticleBodyPartialContract::class,
+        ArticleCardPartialContract::class,
+        ArticleChildrenPartialContract::class,
+        ArticleFooterPartialContract::class,
+        ArticleHeaderPartialContract::class,
+        ArticleTitlePartialContract::class,
         ArchiveComposingMetaboxContract::class,
         ArticleBodyPartialContract::class,
         ArticleCardPartialContract::class,
@@ -64,7 +65,7 @@ class ThemeSuiteServiceProvider extends ServiceProvider
     public function boot()
     {
         events()->listen('wp.booted', function () {
-            $this->getContainer()->get('theme-suite')->boot();
+            $this->getContainer()->get(ThemeSuiteContract::class)->boot();
         });
     }
 
@@ -73,12 +74,11 @@ class ThemeSuiteServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->getContainer()->share('theme-suite', function () {
+        $this->getContainer()->share(ThemeSuiteContract::class, function (): ThemeSuiteContract {
             return new ThemeSuite(config('theme-suite', []), $this->getContainer());
         });
 
         $this->registerPartialDrivers();
-
         $this->registerMetaboxDrivers();
     }
 
@@ -89,32 +89,53 @@ class ThemeSuiteServiceProvider extends ServiceProvider
      */
     public function registerPartialDrivers(): void
     {
-        $this->getContainer()->share(ArticleBodyPartialContract::class, function () {
-            return new ArticleBodyPartial();
+        $this->getContainer()->add(ArticleBodyPartialContract::class, function (): ArticleBodyPartialContract {
+            return new ArticleBodyPartial(
+                $this->getContainer()->get(ThemeSuiteContract::class),
+                $this->getContainer()->get(PartialManagerContract::class)
+            );
         });
 
-        $this->getContainer()->share(ArticleCardPartialContract::class, function () {
-            return (new ArticleCardPartial())->setThemeSuite($this->getContainer()->get('theme-suite'));
+        $this->getContainer()->add(ArticleCardPartialContract::class, function (): ArticleCardPartialContract {
+            return new ArticleCardPartial(
+                $this->getContainer()->get(ThemeSuiteContract::class),
+                $this->getContainer()->get(PartialManagerContract::class)
+            );
         });
 
-        $this->getContainer()->share(ArticleChildrenPartialContract::class, function () {
-            return new ArticleChildrenPartial();
+        $this->getContainer()->add(ArticleChildrenPartialContract::class, function (): ArticleChildrenPartialContract {
+            return new ArticleChildrenPartial(
+                $this->getContainer()->get(ThemeSuiteContract::class),
+                $this->getContainer()->get(PartialManagerContract::class)
+            );
         });
 
-        $this->getContainer()->share(ArticleFooterPartialContract::class, function () {
-            return new ArticleFooterPartial();
+        $this->getContainer()->add(ArticleFooterPartialContract::class, function (): ArticleFooterPartialContract {
+            return new ArticleFooterPartial(
+                $this->getContainer()->get(ThemeSuiteContract::class),
+                $this->getContainer()->get(PartialManagerContract::class)
+            );
         });
 
-        $this->getContainer()->share(ArticleHeaderPartialContract::class, function () {
-            return new ArticleHeaderPartial();
+        $this->getContainer()->add(ArticleHeaderPartialContract::class, function (): ArticleHeaderPartialContract {
+            return new ArticleHeaderPartial(
+                $this->getContainer()->get(ThemeSuiteContract::class),
+                $this->getContainer()->get(PartialManagerContract::class)
+            );
         });
 
-        $this->getContainer()->share(ArticleTitlePartialContract::class, function () {
-            return new ArticleTitlePartial();
+        $this->getContainer()->add(ArticleTitlePartialContract::class, function (): ArticleTitlePartialContract {
+            return new ArticleTitlePartial(
+                $this->getContainer()->get(ThemeSuiteContract::class),
+                $this->getContainer()->get(PartialManagerContract::class)
+            );
         });
 
-        $this->getContainer()->share(NavMenuPartialPartialContract::class, function () {
-            return new NavMenuPartial();
+        $this->getContainer()->add(NavMenuPartialPartialContract::class, function (): NavMenuPartialPartialContract {
+            return new NavMenuPartial(
+                $this->getContainer()->get(ThemeSuiteContract::class),
+                $this->getContainer()->get(PartialManagerContract::class)
+            );
         });
     }
 
@@ -125,26 +146,29 @@ class ThemeSuiteServiceProvider extends ServiceProvider
      */
     public function registerMetaboxDrivers(): void
     {
-        $this->getContainer()->share(ImageGalleryMetaboxContract::class, function () {
-            return (new ImageGalleryMetabox())->setThemeSuite($this->getContainer()->get('theme-suite'));
+        $this->getContainer()->share(ImageGalleryMetaboxContract::class, function (): ImageGalleryMetaboxContract {
+            return (new ImageGalleryMetabox())->setThemeSuite($this->getContainer()->get(ThemeSuiteContract::class));
         });
 
         $this->getContainer()->share(ArchiveComposingMetaboxContract::class, function () {
-            return (new ArchiveMetabox())->setThemeSuite($this->getContainer()->get('theme-suite'))
+            return (new ArchiveMetabox())
+                ->setThemeSuite($this->getContainer()->get(ThemeSuiteContract::class))
                 ->setHandler(function (MetaboxDriver $box, WP_Post $wp_post) {
                     $box->set('post', post::create($wp_post));
                 });
         });
 
         $this->getContainer()->share(GlobalComposingMetaboxContract::class, function () {
-            return (new GlobalMetabox())->setThemeSuite($this->getContainer()->get('theme-suite'))
+            return (new GlobalMetabox())
+                ->setThemeSuite($this->getContainer()->get(ThemeSuiteContract::class))
                 ->setHandler(function (MetaboxDriver $box, WP_Post $wp_post) {
                     $box->set('post', post::create($wp_post));
                 });
         });
 
         $this->getContainer()->share(SingularComposingMetaboxContract::class, function () {
-            return (new SingularMetabox())->setThemeSuite($this->getContainer()->get('theme-suite'))
+            return (new SingularMetabox())
+                ->setThemeSuite($this->getContainer()->get(ThemeSuiteContract::class))
                 ->setHandler(function (MetaboxDriver $box, WP_Post $wp_post) {
                     $box->set('post', post::create($wp_post));
                 });

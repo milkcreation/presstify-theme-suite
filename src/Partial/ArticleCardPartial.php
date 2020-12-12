@@ -4,7 +4,6 @@ namespace tiFy\Plugins\ThemeSuite\Partial;
 
 use tiFy\Plugins\ThemeSuite\Contracts\ArticleCardPartial as ArticleCardPartialContract;
 use tiFy\Plugins\ThemeSuite\Contracts\QueryPostComposing;
-use tiFy\Support\Proxy\Partial;
 use tiFy\Wordpress\Contracts\Query\QueryPost as QueryPostContract;
 use tiFy\Wordpress\Query\QueryPost as post;
 
@@ -13,9 +12,9 @@ class ArticleCardPartial extends AbstractPartialDriver implements ArticleCardPar
     /**
      * @inheritDoc
      */
-    public function defaults(): array
+    public function defaultParams(): array
     {
-        return array_merge(parent::defaults(), [
+        return array_merge(parent::defaultParams(), [
             'excerpt' => 'teaser',
             'post'    => null,
             'enabled' => [
@@ -45,7 +44,7 @@ class ArticleCardPartial extends AbstractPartialDriver implements ArticleCardPar
             if (!$this->get('thumbnail') && ($this->get('holder') !== false)) {
                 $holder = $this->get('holder', null);
                 if (!is_string($holder)) {
-                    $holder = Partial::get('holder', array_merge([
+                    $holder = $this->partialManager()->get('holder', array_merge([
                         'attrs'  => [
                             'class' => '%s ArticleCard-thumbImg',
                         ],
@@ -59,7 +58,7 @@ class ArticleCardPartial extends AbstractPartialDriver implements ArticleCardPar
             if ($this->get('readmore') !== false) {
                 $readmore = $this->get('readmore', null);
                 if (!is_string($readmore)) {
-                    $readmore = Partial::get('tag', array_merge([
+                    $readmore = $this->partialManager()->get('tag', array_merge([
                         'attrs'   => [
                             'class' => '%s ArticleCard-readmoreLink',
                             'href'  => $article->getPermalink(),

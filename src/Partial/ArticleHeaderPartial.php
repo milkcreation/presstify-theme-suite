@@ -12,14 +12,20 @@ class ArticleHeaderPartial extends AbstractPartialDriver implements ArticleHeade
     /**
      * @inheritDoc
      */
-    public function defaults(): array
+    public function defaultParams(): array
     {
-        return array_merge(parent::defaults(), [
-            /** @var bool */
+        return array_merge(parent::defaultParams(), [
+            /**
+             * @var bool
+             */
             'enabled'    => false,
-            /** @var bool|array */
+            /**
+             * @var bool|array
+             */
             'breadcrumb' => true,
-            /** @var int|object|false|null */
+            /**
+             * @var int|object|false|null
+             */
             'post'       => null,
             'title'      => null,
             'content'    => null,

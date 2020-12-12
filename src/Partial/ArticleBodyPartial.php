@@ -12,9 +12,9 @@ class ArticleBodyPartial extends AbstractPartialDriver implements ArticleBodyPar
     /**
      * @inheritDoc
      */
-    public function defaults(): array
+    public function defaultParams(): array
     {
-        return array_merge(parent::defaults(), [
+        return array_merge(parent::defaultParams(), [
             /** @var int|object|false|null */
             'post'    => null,
             'enabled' => [

@@ -2,9 +2,10 @@
 
 namespace tiFy\Plugins\ThemeSuite;
 
-use Exception;
+use RuntimeException;
 use Psr\Container\ContainerInterface as Container;
 use tiFy\Contracts\Filesystem\LocalFilesystem;
+use tiFy\Contracts\Partial\Partial as PartialManagerContract;
 use tiFy\Plugins\ThemeSuite\Contracts\ArchiveComposingMetabox;
 use tiFy\Plugins\ThemeSuite\Contracts\GlobalComposingMetabox;
 use tiFy\Plugins\ThemeSuite\Contracts\ImageGalleryMetabox;
@@ -17,24 +18,21 @@ use tiFy\Plugins\ThemeSuite\Contracts\ArticleHeaderPartial;
 use tiFy\Plugins\ThemeSuite\Contracts\ArticleTitlePartial;
 use tiFy\Plugins\ThemeSuite\Contracts\NavMenuPartial;
 use tiFy\Plugins\ThemeSuite\Contracts\ThemeSuite as ThemeSuiteContract;
+use tiFy\Support\Concerns\BootableTrait;
+use tiFy\Support\Concerns\ContainerAwareTrait;
 use tiFy\Support\ParamsBag;
 use tiFy\Support\Proxy\Metabox;
-use tiFy\Support\Proxy\Partial;
 use tiFy\Support\Proxy\Storage;
 
 class ThemeSuite implements ThemeSuiteContract
 {
+    use BootableTrait, ContainerAwareTrait;
+
     /**
      * Instance de la classe.
      * @var static|null
      */
     private static $instance;
-
-    /**
-     * Indicateur de chargement.
-     * @var bool
-     */
-    private $booted = false;
 
     /**
      * Liste des services par défaut fournis par conteneur d'injection de dépendances.
@@ -80,12 +78,6 @@ class ThemeSuite implements ThemeSuiteContract
     protected $config;
 
     /**
-     * Instance du conteneur d'injection de dépendances.
-     * @var Container|null
-     */
-    protected $container;
-
-    /**
      * @param array $config
      * @param Container|null $container
      *
@@ -112,8 +104,7 @@ class ThemeSuite implements ThemeSuiteContract
         if (self::$instance instanceof self) {
             return self::$instance;
         }
-
-        throw new Exception(sprintf('Unavailable %s instance', __CLASS__));
+        throw new RuntimeException(sprintf('Unavailable %s instance', __CLASS__));
     }
 
     /**
@@ -121,12 +112,14 @@ class ThemeSuite implements ThemeSuiteContract
      */
     public function boot(): ThemeSuiteContract
     {
-        if (!$this->booted) {
+        if (!$this->isBooted()) {
             events()->trigger('theme-suite.boot');
 
             foreach ($this->partialDrivers as $alias => $abstract) {
-                if ($this->getContainer()->has($abstract)) {
-                    Partial::register($alias, $this->getContainer()->get($abstract));
+                if ($this->containerHas($abstract)) {
+                    /** @var PartialManagerContract $partialManager */
+                    $partialManager = $this->getContainer()->get(PartialManagerContract::class);
+                    $partialManager->register($alias, $abstract);
                 }
             }
 
@@ -149,7 +142,7 @@ class ThemeSuite implements ThemeSuiteContract
                 // add_image_size('composing-banner-md', 290, 163, false);
             });
 
-            $this->booted = true;
+            $this->setBooted();
 
             events()->trigger('theme-suite.booted');
         }
@@ -178,14 +171,6 @@ class ThemeSuite implements ThemeSuiteContract
     /**
      * @inheritDoc
      */
-    public function getContainer(): ?Container
-    {
-        return $this->container;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getProvider(string $name)
     {
         return $this->config("providers.{$name}", $this->defaultProviders[$name] ?? null);
@@ -194,26 +179,10 @@ class ThemeSuite implements ThemeSuiteContract
     /**
      * @inheritDoc
      */
-    public function resolve(string $alias)
-    {
-        return ($container = $this->getContainer()) ? $container->get("theme-suite.{$alias}") : null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function resolvable(string $alias): bool
-    {
-        return ($container = $this->getContainer()) && $container->has("theme-suite.{$alias}");
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function resources(?string $path = null)
     {
         if (!isset($this->resources) || is_null($this->resources)) {
-            $this->resources = Storage::local(dirname(__DIR__));
+            $this->resources = Storage::local(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources');
         }
 
         return is_null($path) ? $this->resources : $this->resources->path($path);
@@ -225,16 +194,6 @@ class ThemeSuite implements ThemeSuiteContract
     public function setConfig(array $attrs): ThemeSuiteContract
     {
         $this->config($attrs);
-
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setContainer(Container $container): ThemeSuiteContract
-    {
-        $this->container = $container;
 
         return $this;
     }

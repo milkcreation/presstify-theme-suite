@@ -2,19 +2,20 @@
 
 namespace tiFy\Plugins\ThemeSuite\Contracts;
 
-use Exception;
 use Psr\Container\ContainerInterface as Container;
 use tiFy\Contracts\Filesystem\LocalFilesystem;
 use tiFy\Contracts\Support\ParamsBag;
 
+/**
+ * @mixin \tiFy\Support\Concerns\BootableTrait
+ * @mixin \tiFy\Support\Concerns\ContainerAwareTrait
+ */
 interface ThemeSuite
 {
     /**
      * Récupération de l'instance.
      *
      * @return static
-     *
-     * @throws Exception
      */
     public static function instance(): ThemeSuite;
 
@@ -52,24 +53,6 @@ interface ThemeSuite
     public function getProvider(string $name);
 
     /**
-     * Résolution de service fourni.
-     *
-     * @param string $alias
-     *
-     * @return object|mixed|null
-     */
-    public function resolve(string $alias);
-
-    /**
-     * Vérification de résolution possible d'un service fourni.
-     *
-     * @param string $alias
-     *
-     * @return bool
-     */
-    public function resolvable(string $alias): bool;
-
-    /**
      * Chemin absolu vers une ressources (fichier|répertoire).
      *
      * @param string|null $path Chemin relatif vers la ressource.
@@ -86,13 +69,4 @@ interface ThemeSuite
      * @return static
      */
     public function setConfig(array $attrs): ThemeSuite;
-
-    /**
-     * Définition du conteneur d'injection de dépendances.
-     *
-     * @param Container $container
-     *
-     * @return static
-     */
-    public function setContainer(Container $container): ThemeSuite;
 }

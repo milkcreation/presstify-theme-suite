@@ -5,16 +5,15 @@ namespace tiFy\Plugins\ThemeSuite\Partial;
 use tiFy\Plugins\ThemeSuite\Contracts\NavMenuPartial as NavMenuPartialContract;
 use tiFy\Contracts\Partial\Tag;
 use tiFy\Contracts\Partial\PartialDriver;
-use tiFy\Support\Proxy\Partial;
 
 class NavMenuPartial extends AbstractPartialDriver implements NavMenuPartialContract
 {
     /**
      * @inheritDoc
      */
-    public function parse(): PartialDriver
+    public function parseParams(): PartialDriver
     {
-        parent::parse();
+        parent::parseParams();
 
         if ($items = $this->get('items')) {
             $this->set('items', array_map(function ($item) {
@@ -31,7 +30,7 @@ class NavMenuPartial extends AbstractPartialDriver implements NavMenuPartialCont
                     $content = $item['label'] ?? '';
                     $title = $item['title'] ?? basename($href);
 
-                    $_item['content'] = Partial::get('tag', [
+                    $_item['content'] = $this->partialManager()->get('tag', [
                         'attrs' => [
                             'class' => 'NavMenu-itemLink',
                             'href'  => $href,
