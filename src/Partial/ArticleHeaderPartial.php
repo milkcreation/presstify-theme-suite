@@ -41,7 +41,7 @@ class ArticleHeaderPartial extends AbstractPartialDriver implements ArticleHeade
         $content = $this->get('content');
         $title = $this->get('title');
 
-        if (!is_array($breadcrumb)) {
+        if ($breadcrumb !== false && !is_array($breadcrumb)) {
             $this->set('breadcrumb', []);
         }
 
