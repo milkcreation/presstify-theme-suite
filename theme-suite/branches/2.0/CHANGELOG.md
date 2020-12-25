@@ -1,5 +1,12 @@
 # Release Notes
 
+## [v2.0.11 (2020-12-25)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.11...v2.0.11)
+
+### Fixed
+
+- ArticleHeader >> Correctif désactivation breadcrumb
+
+
 ## [v2.0.10 (2020-12-12)](https://svn.tigreblanc.fr/presstify-plugins/theme-suite/tags/2.0.10...v2.0.10)
 
 ### Changed
