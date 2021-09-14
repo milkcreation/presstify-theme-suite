@@ -1,7 +1,7 @@
 {
   "name": "presstify-plugins/theme-suite",
   "description": "Theme Suite PresstiFy plugin - Components collection.",
-  "homepage": "https://svn.tigreblanc.fr/presstify-plugins/theme-suite/",
+  "homepage": "https://github.com/milkcreation/presstify-theme-suite.git",
   "keywords": [
     "presstify",
     "plugins",
@@ -11,19 +11,13 @@
     "metabox drivers"
   ],
   "type": "presstify-plugin",
-  "time": "2020-12-25",
+  "time": "2021-09-14",
   "license": "MIT",
   "authors": [
     {
       "name": "Jordy Manner",
       "email": "jordy.manner@milkcreation.fr",
       "role": "Developper"
-    }
-  ],
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://composer.tigreblanc.fr/presstify/"
     }
   ],
   "require": {
